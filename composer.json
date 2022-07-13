@@ -1,0 +1,28 @@
+{
+    "name": "kharlamov/php-doc-gen",
+    "description": "Simple API for document generation. Generates .docx file based on template && upload it to disk.yandex.ru",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "PhpDocGen\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Kharlamov Vladislav",
+            "email": "kharlamov.workspace@gmail.com"
+        }
+    ],
+    "config": {
+        "sort-packages": true
+    },
+    "require": {
+        "php": ">=8.0",
+        "roave/security-advisories": "dev-master",
+        "slim/psr7": "^1.5",
+        "slim/slim": "^4.10"
+    },
+    "scripts": {
+        "runserver": "php -S localhost:8080 -t public public/index.php"
+    }
+}
