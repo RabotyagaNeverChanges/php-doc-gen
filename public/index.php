@@ -8,6 +8,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Factory\AppFactory;
 
 $app = AppFactory::create();
+$app->setBasePath("/api/v1");
 
 $app->get("/hello/{name}", function(Request $request, Response $response, array $args) {
 	$name = $args["name"];
