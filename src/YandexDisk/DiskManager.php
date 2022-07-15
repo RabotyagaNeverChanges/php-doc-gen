@@ -16,7 +16,6 @@ class DiskManager {
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 		curl_setopt($ch, CURLOPT_VERBOSE, false);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
 		curl_setopt($ch, CURLOPT_HTTPHEADER, [
 			"Authorization: OAuth $this->oAuthToken",
 		]);
@@ -74,7 +73,17 @@ class DiskManager {
 	public function publish(string $remotePath) {
 		$ch = curl_init($this->baseApiUrl . "/resources/publish/?path=" . urlencode($remotePath));
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Authorization: OAuth $this->oAuthToken"));
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_PUT, true);
 		curl_exec($ch);
+	}
+	
+	public function getMetaInfo(string $remotePath): array {
+		$ch = curl_init($this->baseApiUrl . "/resources/?path=" . urlencode($remotePath));
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Authorization: OAuth $this->oAuthToken"));
+		$response = curl_exec($ch);
+		$decodedResponse = json_decode($response, true);
+		return $decodedResponse;
 	}
 }

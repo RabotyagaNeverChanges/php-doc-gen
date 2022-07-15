@@ -16,11 +16,11 @@ class TemplateCompiler {
 	}
 	
 	private function generateDocumentName(string $filename, string $extension): string {
-		$timestamp = date("Y-m-d__h:m:s");
-		return $this->documentDir . "/" . $filename . "__" . $timestamp . "." . $extension;
+		$timestamp = date("Y-m-d__h-i-s");
+		return $filename . "__" . $timestamp . "." . $extension;
 	}
 	
-	public function compileTemplate(string $filename, array $context = []): void {
+	public function compileTemplate(string $filename, array $context = []): string {
 		$extensionDelimiterPos = strrpos($filename, ".");
 		$extension = substr($filename, $extensionDelimiterPos + 1);
 		$filename = substr($filename, 0, $extensionDelimiterPos);
@@ -30,7 +30,9 @@ class TemplateCompiler {
 				$this->templateDir . "/" . $filename . "." . $extension
 			);
 			$templateProcessor->setValues($context);
-			$templateProcessor->saveAs($this->generateDocumentName($filename, $extension));
+			$documentName = $this->generateDocumentName($filename, $extension);
+			$templateProcessor->saveAs($this->documentDir . "/" . $documentName);
+			return $documentName;
 			
 		} catch (CopyFileException  $e) {
 			throw new \Exception("Given file is corrupted or doesn't exist");
